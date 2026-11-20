@@ -55,3 +55,37 @@ GAME_URL=http://localhost:4180 npm run test:browser
 - 工作流 https://github.com/Raingor/sudoku/actions/runs/44717949719 成功。
 - 站点：https://raingor.github.io/sudoku/ ，线上50/50浏览器检查通过；数字/候选/撤销、三档与确认、真实最后一步胜利、触屏及存储异常均正常。
 - 线上无pageerror/console/HTTP错误；截图和结果保存在忽略的artifacts目录。
+
+## 新增人物头像 · 本地实现（2026-11-20 20:06；未浏览器验收/发布）
+- 主 Agent 指定重新打开本项目实现：只修改 sudoku；只读 xiaoxiaole/src/catalog.ts 后复制对应19张 WebP头像到 public/characters-2d/，合计682,082字节，逐文件SHA256与源一致。未复制PNG/全身图/Three资源。
+- 新增 src/characters.ts、src/characters.css，接入 main.ts 原标题左栏/手机标题下方，替换原纯文字陪伴提示；米白墨绿纸面伙伴头像、完整名字与换伙伴入口。
+- 原生details/summary展开19角色网格，使用普通命名按钮与aria-pressed，图片alt、显式focus-visible，选完收起并返回summary，Escape只在组件内部处理；无新dialog、无游戏键盘全局监听、无cheat globals或兄弟运行时依赖。
+- 独立版本化角色选择key与数独存档隔离；无效JSON/版本/id安全默认classic；storage访问/get/set均捕获异常，失败显示提示且仍支持内存切换。
+- 新增 tests/characters.test.ts 35项：19角色轮流存储/相对路径、字段校验、访问/读取/写入错误、非法id不触碰存储。
+- 实跑 npm test：3文件138/138通过；npm run build：严格tsc+Vite8通过；node --check scripts/characters-smoke.mjs通过。
+- 新增 scripts/characters-smoke.mjs，独立Chrome/GAME_URL，待验收19图加载、全部选择、刷新、键盘/Escape、不干扰实际数独输入、损坏/禁用/配额存储、360真实触摸无溢出。截图将写入artifacts/characters-*.png，结果characters-results.json。
+- 按主 Agent 错峰指令，本轮未启动浏览器或重启任何服务，未生成新版截图，不把上方初版线上50项记录作为本次头像验收。
+- README/task_plan已区分历史上线与本次待验收，未操作git/发布/memory或根计划。
+- 本轮源码完成并冻结交回主 Agent；后续如需修复由同一Agent继续。
+
+主 Agent 验收命令（服务就绪后）
+
+```sh
+GAME_URL=http://localhost:5180 node scripts/characters-smoke.mjs
+GAME_URL=http://localhost:4180 node scripts/characters-smoke.mjs
+GAME_URL=http://localhost:4180 npm run test:browser
+```
+
+## 人物头像手机高度回归修复 · 2026-11-20 20:11
+- 主 Agent 独立头像48/48通过，但原完整数独smoke在390×844的底部操作viewport断言失败；交回本Agent并允许本游戏浏览器回归。
+- 实测原始页面scrollY=0：390宽伙伴summary高62px，底部操作bottom=860px，超844。根因是新增头像块及上下间距增加了原手机页面高度。
+- 仅修改src/characters.css的手机规则：伙伴头像48→40px，summary62→50px，上边距12→8px，页头上下各减4px，main顶部21→15px，introduction底部12→8px。桌面/选择网格/19角色/可访问行为不变，未改scripts/smoke.mjs或任何viewport断言。
+- 修后生产preview无滚动实测：390×844操作bottom=826px；360×844为796.5px，两者scrollY=0、无横向溢出。伙伴头像和名字继续清晰可见。
+- 实跑npm test：138/138；npm run build：严格TS+Vite通过。
+- npm run test:browser：开发5180 50/50、生产4180 50/50。
+- GAME_URL对应服务运行node scripts/characters-smoke.mjs：开发5180 48/48、生产4180 48/48。
+- 四轮全部pageerror/console error/HTTP>=400含404为0，覆盖19头像加载/全部选择/键盘/Escape/刷新/存储异常/360触摸与原游戏完整回归。
+- 新版截图artifacts/preview/mobile-390.png和artifacts/characters-mobile-360.png经magpie-vision确认头像/姓名不与标题重叠，棋盘/数字键/底部重开新题完整无遮挡；其他截图及结果JSON同原路径更新。
+- 使用既有5180/4180服务，未重启或停止服务。未git/推送/发布/memory；仅sudoku目录，原smoke未削弱。
+- README/task_plan已更新本地新版真实验收；现再次冻结，交主Agent发布，尚无新版线上验收。
+

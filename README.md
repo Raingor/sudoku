@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/sudoku
-- GitHub Pages：https://raingor.github.io/sudoku/ （已上线，线上50项真实浏览器检查通过）
+- GitHub Pages：https://raingor.github.io/sudoku/ （数独初版已上线，初版线上50项真实浏览器检查通过；本次新增人物头像已完成本地双态浏览器验收，尚未发布）
 - main 推送自动执行题库及规则测试、类型检查、构建和 Pages 发布。
 
 ## 启动
@@ -15,7 +15,7 @@
 ```sh
 npm ci
 npm run dev                 # http://localhost:5180
-npm test                    # Vitest，103 项
+npm test                    # Vitest，138 项（含35项角色单测）
 npm run build               # 严格 tsc --noEmit，然后 Vite 8 构建
 npm run preview             # http://localhost:4180
 npm run test:browser         # 独立 Chrome，对开发服务运行 50 项验收
@@ -42,6 +42,29 @@ GAME_URL=http://localhost:4180 npm run test:browser
 方向键选择格子（边缘不跨行）；Home / End 到本行首尾。`N` 切换笔记，`Delete` / `Backspace` / `0` 擦除，`Ctrl/⌘ + Z` 撤销。快捷键仅棋盘格聚焦时生效，不接管页面或弹窗输入。棋盘采用网格/行/格语义、单格 roving tab stop；固定格、候选、冲突和选择都有可访问状态。弹窗限制焦点，Escape 关闭并恢复触发位置。支持 `prefers-reduced-motion`，完成判定不依赖动画。
 
 计时从新局显示时开始；页面隐藏、规则/确认弹窗打开、完成后暂停。续局只恢复已累计用时，不计离线时间。计时和状态同步没有动画异步锁。
+
+## 解题伙伴（本地新版已验收，待发布）
+
+主界面左侧/手机标题下方显示陪伴头像与角色名字。点击「换伙伴」展开原生 details 角色网格，19 位全部可选；选定自动收起并将焦点返回 summary。Tab / Enter 可选择，Escape 收起；角色区域不监听游戏快捷键，不新增 dialog，不覆盖棋盘。
+
+- 人物清单与 19 张头像来自同工作区 `xiaoxiaole` 的既有素材，仅复制对应 `public/characters-2d/<id>.webp`，合计 682,082 字节，无全身图/PNG/Three.js。独立部署后无需兄弟项目。
+- `src/characters.ts` / `src/characters.css` 独立管理展示、选择与样式，资源路径为 `./characters-2d/<id>.webp`，兼容 Pages 子路径。
+- 独立偏好 key：`puzzle-sudoku-character-v1`，格式 `{ "version": 1, "id": "classic" }`，与数独进度分离。非法 JSON、未知 id、错误版本均回退自嘲熊（Joke Bear）；访问、读取和写入 storage 均 try/catch，失败仍可切换并显示无法持久保存提示。
+- 角色按钮有完整中文可访问名字、`aria-pressed`、头像 alt 和清晰焦点；不承诺素材第三方再授权，素材来源沿用用户指定的现有项目资源。
+
+本轮实跑：`npm test` **138/138**（3 文件，新增35项角色偏好/字段/异常测试），`npm run build` 与头像脚本语法检查通过。首轮按错峰要求未启动浏览器；主 Agent 发现手机头像增加高度造成底部操作超出844高后，授权本 Agent 修复并进行浏览器回归。现开发5180/生产4180均完成原完整游戏 **50/50** 与头像 **48/48**，全部页面/控制台/HTTP错误为0；**未推送或发布**。
+
+手机修复只调整真实CSS布局，未修改或削弱原游戏浏览器断言：伙伴头像40px、卡片50px，收紧页头和标题上下间距。无滚动时390×844底部操作bottom从860降至 **826px**，360×844为 **796.5px**，头像/姓名/19角色功能保留。新版390/360截图已用magpie-vision确认无重叠、棋盘及底部操作完整。
+
+主 Agent 在已有开发/preview服务就绪后运行：
+
+```sh
+GAME_URL=http://localhost:5180 node scripts/characters-smoke.mjs
+GAME_URL=http://localhost:4180 node scripts/characters-smoke.mjs
+GAME_URL=http://localhost:4180 npm run test:browser
+```
+
+头像脚本使用独立 Chrome，检查19张加载/逐角色切换、键盘选择/Escape、刷新持久化、坏数据/禁用/配额异常、真实数独输入不受干扰、360触屏无横向溢出与零页面/控制台/HTTP错误。截图输出为 `artifacts/characters-desktop.png`、`characters-desktop-open.png`、`characters-mobile-360.png`、`characters-mobile-360-open.png`，结果为 `characters-results.json`；不同 GAME_URL 重跑会覆盖这些证据，应按验收需要先另存。
 
 ## 原创题库与难度口径
 
@@ -76,10 +99,10 @@ node scripts/generate-puzzles.mjs
 - `src/clock.ts`：可注入时间源的独立计时与格式化。
 - `src/storage.ts`：版本化存档校验与异常降级。
 - `src/main.ts` / `src/style.css`：纸面界面、输入、焦点、弹窗和生命周期。
-- `tests/`：103 项单测，覆盖唯一解、变换、固定格、行列宫冲突、编辑链、完整合法才胜利、存储异常和计时。
+- `tests/`：138 项单测，覆盖唯一解、变换、固定格、行列宫冲突、编辑链、完整合法才胜利、存储异常和计时，以及35项人物列表/独立选择存储测试。
 - `scripts/smoke.mjs`：使用保存的真实数据格式构造可复现夹具，以真实 UI 完成最后一个空格，无产品作弊 globals，也不动态导入 `/src`，可用于生产构建。
 
-### 2026-11-20 实跑结果
+### 2026-11-20 数独初版实跑结果（不含本次人物头像）
 
 - `npm test`：2 文件，**103/103 通过**。
 - `npm run build`：严格 TS 检查及生产构建通过。

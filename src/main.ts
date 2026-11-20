@@ -1,4 +1,6 @@
 import './style.css';
+import './characters.css';
+import { mountCharacters } from './characters';
 import { createGame, edit, undo, conflicts, isComplete, peers, filledCount, type Game } from './engine';
 import { DIFFICULTIES, LABELS, newPuzzle, type Difficulty } from './puzzles';
 import { Clock, formatTime } from './clock';
@@ -28,7 +30,7 @@ app.innerHTML = `
       <h1 id="title">留一刻，<br>给<span>思考。</span></h1>
       <p class="intro-copy">从一个确定的数字开始，<br>让纷繁，慢慢归于有序。</p>
       <div class="paper-note"><span class="note-number">01—09</span><p>每一行，每一列，每一宫。<br>九个数字，恰好各一次。</p><span class="note-stroke" aria-hidden="true"></span></div>
-      <p class="desktop-hint">无需赶时间。<br>每一次推敲，都算数。</p>
+      <div id="character-companion" aria-label="解题伙伴"></div>
     </section>
     <section class="play-area" aria-label="数独游戏">
       <div class="game-topline">
@@ -52,6 +54,7 @@ app.innerHTML = `
   <dialog id="modal" aria-labelledby="dialog-title"><div class="dialog-inner"><p class="eyebrow" id="dialog-kicker"></p><h2 id="dialog-title"></h2><div id="dialog-body"></div><div id="dialog-actions"></div></div></dialog>
 `;
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
+mountCharacters($('#character-companion'));
 const board = $('#board'), modal = $<HTMLDialogElement>('#modal'), difficultySelect = $<HTMLSelectElement>('#difficulty');
 const cellButtons: HTMLButtonElement[] = [];
 for (let r = 0; r < 9; r++) {
