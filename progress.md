@@ -87,5 +87,10 @@ GAME_URL=http://localhost:4180 npm run test:browser
 - 四轮全部pageerror/console error/HTTP>=400含404为0，覆盖19头像加载/全部选择/键盘/Escape/刷新/存储异常/360触摸与原游戏完整回归。
 - 新版截图artifacts/preview/mobile-390.png和artifacts/characters-mobile-360.png经magpie-vision确认头像/姓名不与标题重叠，棋盘/数字键/底部重开新题完整无遮挡；其他截图及结果JSON同原路径更新。
 - 使用既有5180/4180服务，未重启或停止服务。未git/推送/发布/memory；仅sudoku目录，原smoke未削弱。
-- README/task_plan已更新本地新版真实验收；现再次冻结，交主Agent发布，尚无新版线上验收。
+- README/task_plan已更新本地新版真实验收；子Agent冻结交主Agent发布。
 
+## 人物版主Agent发布验收（2026-11-20）
+- 主Agent独立复跑人物48项及完整数独50项全部通过，包括390px数字键盘首屏原断言；未削弱旧玩法覆盖。
+- 代码 `ff1d165` 已推送；Pages工作流 https://github.com/Raingor/sudoku/actions/runs/44734865315 成功。
+- https://raingor.github.io/sudoku/ 新版线上48项人物+50项数独检查全过，无pageerror/console/HTTP资源错误。
+- 138项单测与严格构建通过；19角色、存储降级、手机人物名牌和原数独全流程已完成线上验收，上文未发布为历史交接状态。
