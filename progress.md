@@ -47,4 +47,11 @@ GAME_URL=http://localhost:4180 npm run test:browser
 - 仅写 sudoku；未操作 git / push / deploy / Artifact / memory，未改主 Agent 工作流。
 - 难度为离线题库构造策略分组，未声称空格数严格证明人类难度；有限变体可能重复。
 - 本地存档无防篡改/跨设备同步，无 Service Worker 离线安装缓存。
-- 无已知阻塞；源码完成后冻结交回主 Agent，自此不继续改文件（除非主 Agent 明确交回修复）。
+- 无已知阻塞；子 Agent 完成后冻结交回主 Agent。
+
+## 主 Agent 独立验收与Pages发布
+- 独立103单测、严格类型检查与构建通过；生产preview复核及截图视觉检查通过。
+- 仓库：https://github.com/Raingor/sudoku ，首次提交 `1785055`。
+- 工作流 https://github.com/Raingor/sudoku/actions/runs/44717949719 成功。
+- 站点：https://raingor.github.io/sudoku/ ，线上50/50浏览器检查通过；数字/候选/撤销、三档与确认、真实最后一步胜利、触屏及存储异常均正常。
+- 线上无pageerror/console/HTTP错误；截图和结果保存在忽略的artifacts目录。

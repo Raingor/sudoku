@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/sudoku
-- GitHub Pages：https://raingor.github.io/sudoku/ （首次发布与线上验收进行中）
+- GitHub Pages：https://raingor.github.io/sudoku/ （已上线，线上50项真实浏览器检查通过）
 - main 推送自动执行题库及规则测试、类型检查、构建和 Pages 发布。
 
 ## 启动
