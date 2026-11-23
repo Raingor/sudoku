@@ -94,3 +94,11 @@ GAME_URL=http://localhost:4180 npm run test:browser
 - 代码 `ff1d165` 已推送；Pages工作流 https://github.com/Raingor/sudoku/actions/runs/44734865315 成功。
 - https://raingor.github.io/sudoku/ 新版线上48项人物+50项数独检查全过，无pageerror/console/HTTP资源错误。
 - 138项单测与严格构建通过；19角色、存储降级、手机人物名牌和原数独全流程已完成线上验收，上文未发布为历史交接状态。
+
+## 2026-11-23 · iconfont 图标重采
+
+- 通过 opencli 访问 iconfont.cn 搜索采集页面 favicon 与界面图标，图标名称、ID、搜索词和落位见根目录 `../icons-source.md`。
+- 新增 `public/favicon.svg`，`index.html` 改用该文件；界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色圆角底。
+- 笔记、擦除、撤销、重开、下一题、计时图标全部替换为 iconfont 线性图标。
+- `npm test`、`npm run build` 通过；浏览器冒烟 50 项通过，截图复核图标尺寸、对比度与语义正常。
+

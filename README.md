@@ -113,3 +113,7 @@ node scripts/generate-puzzles.mjs
 - 截图与 JSON 在被忽略的 `artifacts/dev/`、`artifacts/preview/`，含桌面、390 手机、360 reduced-motion、冲突、胜利弹窗、完成棋盘。截图关闭入场动画以防捕获透明首帧，不改产品规则。
 
 Git 仓库与 Pages 发布由协调主 Agent 负责，此实现交付不代表远端已发布。
+
+## 图标来源
+
+页面 favicon 与界面图标于 2026-11-23 通过 opencli 从 [iconfont.cn](https://www.iconfont.cn/) 搜索采集；图标名称、ID、搜索词与落位见根目录 `../icons-source.md`。界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色。
