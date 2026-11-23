@@ -1,4 +1,4 @@
-// Icons collected from iconfont.cn through opencli on 2026-11-23; source IDs and URLs are in ../icons-source.md.
+// Icons collected from iconfont.cn through opencli on 2026-11-23; source IDs and URLs are in ICONS.md.
 import './style.css';
 import './characters.css';
 import { mountCharacters } from './characters';
